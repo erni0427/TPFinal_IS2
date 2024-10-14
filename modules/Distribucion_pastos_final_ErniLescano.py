@@ -3,6 +3,12 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from matplotlib.animation import FuncAnimation
 
+"""
+Este proyecto es un módulo de simulación bioinformática que modela la distribución y evolución de pastos marinos en función de diferentes 
+escenarios climáticos. Las especies consideradas son Cymodocea nodosa, Posidonia oceanica y Halophila stipulacea, con la opción de 
+agregar nuevas especies. El sistema permite analizar cómo el aumento de temperatura y salinidad afecta la dinámica de estas especies 
+a lo largo del tiempo.
+"""
 # Parámetros de las especies: tasa de crecimiento, tasa de mortalidad
 species_params = {
     #caso con halop caso 2, compt 10
