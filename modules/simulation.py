@@ -24,8 +24,8 @@ class Simulacion:
         grid = np.array(combinado).reshape((self.tamano_grid, self.tamano_grid))
 
         # Depuración: Verificar las cantidades iniciales de cada tipo
-        print(f"Especies Inicializadas: {len(celdas_especies)}, Celdas Vacías: {len(celdas_vacias)}, Materia Muerta: {len(celdas_muertas)}")
-        print(f"Initialized Grid:\n{grid}")
+        #print(f"Especies Inicializadas: {len(celdas_especies)}, Celdas Vacías: {len(celdas_vacias)}, Materia Muerta: {len(celdas_muertas)}")
+        #print(f"Initialized Grid:\n{grid}")
         return grid
 
     def correr_simulacion(self, anios):
@@ -33,7 +33,7 @@ class Simulacion:
         for anio in range(anios):
             self.grid_historial.append(self.grid.copy())
             self.grid = self.actualizar_grid()
-            print(f"Grid después del año {anio+1}:\n{self.grid}")  # Debugging adicional
+            #print(f"Grid después del año {anio+1}:\n{self.grid}")  # Debugging adicional
 
     def actualizar_grid(self):
         """Actualiza el grid aplicando las reglas de crecimiento, mortalidad y competencia."""
@@ -76,7 +76,7 @@ class Simulacion:
                         nuevo_grid[i, j] = mejor_vecino
 
         # Debug para verificar la actualización correcta del grid
-        print(f"Updated Grid:\n{nuevo_grid}")
+        #print(f"Updated Grid:\n{nuevo_grid}")
         return nuevo_grid    
 
     def obtener_vecinos(self, x, y):
