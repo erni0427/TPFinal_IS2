@@ -85,21 +85,6 @@ def contar_especies(grid, especies):
             conteo[None] += 1
     return conteo
 
-# def contar_especies(grid, especies):
-#     """Cuenta la cantidad de cada especie en el grid."""
-#     conteo = {especie.nombre: 0 for especie in especies}
-#     conteo["Dead Matta"] = 0
-#     conteo["Arena"] = 0  # Espacios vacíos (arena)
-    
-#     for celda in grid.flatten():
-#         if isinstance(celda, especies):  # Si es una instancia de Species
-#             conteo[celda.nombre] += 1
-#         elif celda == "Dead Matta":  # Si es Dead Matta
-#             conteo["Dead Matta"] += 1
-#         else:
-#             conteo["Arena"] += 1  # Contar los espacios vacíos
-#     return conteo
-
 def mostrar_grafico_cobertura(historial_grids, especies):
     """Muestra el gráfico de cobertura al final."""
     fig, ax = plt.subplots()

@@ -1,9 +1,3 @@
-# class Climate:
-#     """Represents climate change effects."""
-#     def __init__(self, temp_increase, salinity_increase):
-#         self.temp_increase = temp_increase
-#         self.salinity_increase = salinity_increase
-
 class Clima:
     """Define los efectos del clima en las especies."""
     def __init__(self, incremento_temp, incremento_salinidad):
