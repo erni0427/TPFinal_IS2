@@ -1,35 +1,79 @@
-from simulation import Simulacion
-from visualization import mostrar_simulacion, mostrar_grafico_cobertura
-from climate import Clima
-from species import Especie
+import random
 
-def correr_escenario_climatico(nombre_escenario, scenario, especies):
-    # Inicializa la simulación
-    sim = Simulacion(50, especies, scenario)
+class ParametrosClimaticos:
+    def __init__(self):
+        self.temperatura = None
+        self.salinidad = None
 
-    # Corre la simulación por 80 años
-    sim.correr_simulacion(80)
+    def configurar_parametros(self, temperatura, salinidad):
+        """Configura los parámetros climáticos necesarios para la simulación."""
+        if not (0 <= temperatura <= 40):
+            raise ValueError("La temperatura debe estar entre 0 y 40 grados.")
+        if not (0 <= salinidad <= 50):
+            raise ValueError("La salinidad debe estar entre 0 y 50 ppt.")
+        
+        self.temperatura = temperatura
+        self.salinidad = salinidad
+        print(f"Parámetros climáticos configurados: Temperatura={temperatura}°C, Salinidad={salinidad} ppt")
 
-    # Muestra la simulación con gráfico de barras simultáneo
-    mostrar_simulacion(sim.grid_historial, especies, nombre_escenario)
+class Celda:
+    def __init__(self, tipo):
+        self.tipo = tipo  # Tipo de especie en la celda (e.g., "Cymodocea nodosa", "Posidonia oceanica", etc.)
+        self.salud = 100  # Salud inicial de la celda
+        
+    def actualizar_salud(self, temperatura, salinidad):
+        """Actualiza la salud de la celda según los parámetros climáticos."""
+        if self.tipo == "Cymodocea nodosa":
+            # Ejemplo de lógica de impacto de temperatura y salinidad en la salud
+            if temperatura > 30 or salinidad > 40:
+                self.salud -= 10
+            else:
+                self.salud -= 1
+        elif self.tipo == "Posidonia oceanica":
+            if temperatura > 35 or salinidad < 20:
+                self.salud -= 15
+            else:
+                self.salud -= 2
+        elif self.tipo == "Halophila stipulacea":
+            if temperatura < 15 or salinidad > 30:
+                self.salud -= 5
+            else:
+                self.salud -= 1
 
-    # Muestra el gráfico final de cobertura
-    mostrar_grafico_cobertura(sim.grid_historial, especies)
+        # Evitar que la salud caiga por debajo de cero
+        self.salud = max(self.salud, 0)
+        print(f"Celda {self.tipo} actualizada, salud actual: {self.salud}")
 
-if __name__ == "__main__":
-    # Definimos los escenarios climáticos
-    rcp26 = Clima(1.0, 0.1)  # Escenario RCP 2.6
-    rcp85 = Clima(3.5, 0.4)  # Escenario RCP 8.5
+class GridSimulacion:
+    def __init__(self, tamaño, parametros_climaticos):
+        self.tamaño = tamaño  # Tamaño de la cuadrícula, e.g., 50x50
+        self.cuadricula = []
+        self.parametros_climaticos = parametros_climaticos
+        self.inicializar_cuadricula()
 
-    # Definimos las especies
-    cymodocea = Especie("Cymodocea nodosa", 0.05, 0.02, 3)
-    posidonia = Especie("Posidonia oceanica", 0.08, 0.03, 2)
-    halophila = Especie("Halophila stipulacea", 0.12, 0.04, 10)
+    def inicializar_cuadricula(self):
+        """Inicializa la cuadrícula con especies en función de las probabilidades definidas."""
+        especies = ["Cymodocea nodosa", "Posidonia oceanica", "Halophila stipulacea", "Espacio vacío", "Materia muerta"]
+        probabilidades = [0.25, 0.35, 0.15, 0.15, 0.10]
+        self.cuadricula = [
+            [Celda(random.choices(especies, probabilidades)[0]) for _ in range(self.tamaño)]
+            for _ in range(self.tamaño)
+        ]
 
-    # Simulación con Cymodocea y Posidonia (dejando Halophila comentada)
-    especies_dos = [cymodocea, posidonia]
-    correr_escenario_climatico("Escenario RCP 2.6", rcp26, especies_dos)
+    def aplicar_parametros_climaticos(self):
+        """Aplica los parámetros climáticos a cada celda en la cuadrícula."""
+        temperatura = self.parametros_climaticos.temperatura
+        salinidad = self.parametros_climaticos.salinidad
+        
+        for fila in self.cuadricula:
+            for celda in fila:
+                celda.actualizar_salud(temperatura, salinidad)
 
-    # Simulación con Cymodocea, Posidonia y Halophila
-    especies_tres = [cymodocea, posidonia, halophila]
-    correr_escenario_climatico("Escenario RCP 8.5", rcp85, especies_tres)
+# Ejemplo de uso:
+# Inicializar y configurar los parámetros climáticos
+parametros_climaticos = ParametrosClimaticos()
+parametros_climaticos.configurar_parametros(temperatura=28, salinidad=35)
+
+# Crear la cuadrícula de simulación y aplicar parámetros climáticos
+simulacion = GridSimulacion(tamaño=50, parametros_climaticos=parametros_climaticos)
+simulacion.aplicar_parametros_climaticos()
