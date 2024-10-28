@@ -1,30 +1,33 @@
-from simulation import Simulacion
-from visualization import mostrar_simulacion, mostrar_grafico_cobertura
-from species import Especie
+import numpy as np
+import random
 
-def correr_escenario_climatico(nombre_escenario, especies):
-    # Inicializa la simulación
-    sim = Simulacion(50, especies)
+# Tamaño de la cuadrícula
+grid_size = (50, 50)  # Ajustable por el usuario
 
-    # # Corre la simulación por 80 años
-    # sim.correr_simulacion(80)
+# Probabilidades de aparición para cada especie
+probabilities = {
+    'Cymodocea': 0.25,
+    'Posidonia': 0.35,
+    'Halophila': 0.15,
+    'Empty': 0.15,
+    'DeadMatta': 0.10
+}
 
-    # Muestra la simulación con gráfico de barras simultáneo
-    mostrar_simulacion(sim.grid_historial, especies, nombre_escenario)
+def validate_probabilities(prob_dict):
+    total = sum(prob_dict.values())
+    if total != 1.0:
+        raise ValueError("Las probabilidades deben sumar 100%.")
 
-    # Muestra el gráfico final de cobertura
-    mostrar_grafico_cobertura(sim.grid_historial, especies)
+validate_probabilities(probabilities)
 
-if __name__ == "__main__":
-    # Definimos las especies
-    cymodocea = Especie("Cymodocea nodosa", 0.05, 0.02, 3)
-    posidonia = Especie("Posidonia oceanica", 0.08, 0.03, 2)
-    halophila = Especie("Halophila stipulacea", 0.12, 0.04, 10)
+def initialize_grid(size, probs):
+    grid = np.empty(size, dtype=object)
+    species = list(probs.keys())
+    prob_values = list(probs.values())
+    for i in range(size[0]):
+        for j in range(size[1]):
+            grid[i, j] = random.choices(species, weights=prob_values, k=1)[0]
+    return grid
 
-    # Simulación con Cymodocea y Posidonia (dejando Halophila comentada)
-    especies_dos = [cymodocea, posidonia]
-    correr_escenario_climatico("Escenario RCP 2.6", especies_dos)
-
-    # Simulación con Cymodocea, Posidonia y Halophila
-    especies_tres = [cymodocea, posidonia, halophila]
-    correr_escenario_climatico("Escenario RCP 8.5", especies_tres)
+# Inicialización de la cuadrícula con las especies distribuidas aleatoriamente
+species_grid = initialize_grid(grid_size, probabilities)
