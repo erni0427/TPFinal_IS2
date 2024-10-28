@@ -1,0 +1,60 @@
+
+Ciclo 1:
+H E E P H H H H H M
+M H E E P H P P P E
+P M H M P H E E P P
+E H H E H H E H E E
+E M H H P E E E P H
+E H H M E H H P H M
+H H M E E P P P H M
+H H H P H M H H P P
+E H M H H P E E H M
+H H E H E M H P P H
+
+Ciclo 2:
+M E E H M M M M M E
+E M E E H M H H H E
+H E M E H M E E H H
+E M M E M M E M E E
+E E M M H E E E H M
+E M M E E M M H M E
+M M E E E H H H M E
+M M M H M E M M H H
+E M E M M H E E M E
+M M E M E E M H H M
+
+Ciclo 3:
+E E E M E E E E E E
+E E E E M E M M M E
+M E E E M E E E M M
+E E E E E E E E E E
+E E E E M E E E M E
+E E E E E E E M E E
+E E E E E M M M E E
+E E E M E E E E M M
+E E E E E M E E E E
+E E E E E E E M M E
+
+Ciclo 4:
+E E E E E E E E E E
+E E E E E E E E E E
+E E E E E E E E E E
+E E E E E E E E E E
+E E E E E E E E E E
+E E E E E E E E E E
+E E E E E E E E E E
+E E E E E E E E E E
+E E E E E E E E E E
+E E E E E E E E E E
+
+Ciclo 5:
+E E E E E E E E E E
+E E E E E E E E E E
+E E E E E E E E E E
+E E E E E E E E E E
+E E E E E E E E E E
+E E E E E E E E E E
+E E E E E E E E E E
+E E E E E E E E E E
+E E E E E E E E E E
+E E E E E E E E E E
