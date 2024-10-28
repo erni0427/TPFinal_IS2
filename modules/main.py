@@ -1,35 +1,68 @@
-from simulation import Simulacion
-from visualization import mostrar_simulacion, mostrar_grafico_cobertura
-from climate import Clima
-from species import Especie
+from collections import Counter
+import random
 
-def correr_escenario_climatico(nombre_escenario, scenario, especies):
-    # Inicializa la simulación
-    sim = Simulacion(50, especies, scenario)
+# Inicializa una cuadrícula con especies al azar para simular
+def initialize_species_grid(rows, cols):
+    grid = []
+    for _ in range(rows):
+        row = []
+        for _ in range(cols):
+            rand_num = random.uniform(0, 100)
+            if rand_num <= 25:
+                row.append("Cymodocea nodosa")
+            elif rand_num <= 60:
+                row.append("Posidonia oceanica")
+            elif rand_num <= 75:
+                row.append("Halophila stipulacea")
+            elif rand_num <= 90:
+                row.append("Espacio vacío")
+            else:
+                row.append("Materia muerta")
+        grid.append(row)
+    return grid
 
-    # Corre la simulación por 80 años
-    sim.correr_simulacion(80)
+# Simula los pasos de la cuadrícula
+def run_simulation(grid, steps):
+    for step in range(steps):
+        grid = simulate_step(grid)
+    return grid
 
-    # Muestra la simulación con gráfico de barras simultáneo
-    mostrar_simulacion(sim.grid_historial, especies, nombre_escenario)
+# Simula un paso en la cuadrícula
+def simulate_step(grid):
+    new_grid = []
+    for row in grid:
+        new_row = []
+        for cell in row:
+            # Ejemplo de lógica de interacción simple
+            if cell == "Cymodocea nodosa":
+                new_row.append("Cymodocea nodosa")  # Permanece
+            elif cell == "Posidonia oceanica":
+                new_row.append("Posidonia oceanica")  # Permanece
+            elif cell == "Halophila stipulacea":
+                new_row.append(random.choice(["Halophila stipulacea", "Espacio vacío"]))  # Puede volverse vacío
+            elif cell == "Materia muerta":
+                new_row.append(random.choice(["Materia muerta", "Espacio vacío"]))  # Puede volverse vacío
+            else:
+                new_row.append(cell)  # Espacio vacío permanece
+        new_grid.append(new_row)
+    return new_grid
 
-    # Muestra el gráfico final de cobertura
-    mostrar_grafico_cobertura(sim.grid_historial, especies)
+# Genera el reporte final de la simulación
+def generate_simulation_report(grid):
+    flattened_grid = [cell for row in grid for cell in row]
+    species_count = Counter(flattened_grid)
+    report = "Reporte Final de Simulación:\n"
+    report += "\n".join([f"{species}: {count}" for species, count in species_count.items()])
+    return report
 
-if __name__ == "__main__":
-    # Definimos los escenarios climáticos
-    rcp26 = Clima(1.0, 0.1)  # Escenario RCP 2.6
-    rcp85 = Clima(3.5, 0.4)  # Escenario RCP 8.5
+# Configuración inicial
+rows, cols = 10, 10  # Tamaño de la cuadrícula
+steps = 5  # Número de ciclos de simulación
 
-    # Definimos las especies
-    cymodocea = Especie("Cymodocea nodosa", 0.05, 0.02, 3)
-    posidonia = Especie("Posidonia oceanica", 0.08, 0.03, 2)
-    halophila = Especie("Halophila stipulacea", 0.12, 0.04, 10)
+# Inicializa la cuadrícula y ejecuta la simulación
+species_grid = initialize_species_grid(rows, cols)
+final_grid = run_simulation(species_grid, steps)
 
-    # Simulación con Cymodocea y Posidonia (dejando Halophila comentada)
-    especies_dos = [cymodocea, posidonia]
-    correr_escenario_climatico("Escenario RCP 2.6", rcp26, especies_dos)
-
-    # Simulación con Cymodocea, Posidonia y Halophila
-    especies_tres = [cymodocea, posidonia, halophila]
-    correr_escenario_climatico("Escenario RCP 8.5", rcp85, especies_tres)
+# Genera y muestra el reporte de resultados después de la simulación
+report = generate_simulation_report(final_grid)
+print(report)
