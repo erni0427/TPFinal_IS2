@@ -1,35 +1,71 @@
-from simulation import Simulacion
-from visualization import mostrar_simulacion, mostrar_grafico_cobertura
-from climate import Clima
-from species import Especie
+import time
+import random
 
-def correr_escenario_climatico(nombre_escenario, scenario, especies):
-    # Inicializa la simulación
-    sim = Simulacion(50, especies, scenario)
+def initialize_species_grid(rows, cols):
+    grid = []
+    for _ in range(rows):
+        row = []
+        for _ in range(cols):
+            rand_num = random.uniform(0, 100)
+            if rand_num <= 25:
+                row.append("Cymodocea nodosa")
+            elif rand_num <= 60:
+                row.append("Posidonia oceanica")
+            elif rand_num <= 75:
+                row.append("Halophila stipulacea")
+            elif rand_num <= 90:
+                row.append("Espacio vacío")
+            else:
+                row.append("Materia muerta")
+        grid.append(row)
+    return grid
 
-    # Corre la simulación por 80 años
-    sim.correr_simulacion(80)
+def simulate_step(grid):
+    new_grid = []
+    for row in grid:
+        new_row = []
+        for cell in row:
+            if cell == "Cymodocea nodosa":
+                new_row.append("Cymodocea nodosa")  # Permanece
+            elif cell == "Posidonia oceanica":
+                new_row.append("Posidonia oceanica")  # Permanece
+            elif cell == "Halophila stipulacea":
+                new_row.append(random.choice(["Halophila stipulacea", "Espacio vacío"]))  # Puede volverse vacío
+            elif cell == "Materia muerta":
+                new_row.append(random.choice(["Materia muerta", "Espacio vacío"]))  # Puede volverse vacío
+            else:
+                new_row.append(cell)  # Espacio vacío permanece
+        new_grid.append(new_row)
+    return new_grid
 
-    # Muestra la simulación con gráfico de barras simultáneo
-    mostrar_simulacion(sim.grid_historial, especies, nombre_escenario)
+def run_simulation(grid, steps):
+    for step in range(steps):
+        grid = simulate_step(grid)
+        yield grid  # Usar yield para permitir la visualización paso a paso
 
-    # Muestra el gráfico final de cobertura
-    mostrar_grafico_cobertura(sim.grid_historial, especies)
+def visualize_simulation(grid, steps, delay):
+    for step in range(steps):
+        grid = simulate_step(grid)
+        print(f"Paso {step + 1}:")
+        for row in grid:
+            print(" | ".join(row))
+        print("\n")
+        time.sleep(delay)  # Esperar antes de continuar al siguiente paso
 
-if __name__ == "__main__":
-    # Definimos los escenarios climáticos
-    rcp26 = Clima(1.0, 0.1)  # Escenario RCP 2.6
-    rcp85 = Clima(3.5, 0.4)  # Escenario RCP 8.5
+def set_simulation_speed(speed):
+    if speed <= 0:
+        raise ValueError("La velocidad debe ser un valor positivo.")
+    return speed
 
-    # Definimos las especies
-    cymodocea = Especie("Cymodocea nodosa", 0.05, 0.02, 3)
-    posidonia = Especie("Posidonia oceanica", 0.08, 0.03, 2)
-    halophila = Especie("Halophila stipulacea", 0.12, 0.04, 10)
+# Configura la velocidad de la simulación (en segundos)
+simulation_speed = set_simulation_speed(1)  # Tiempo de pausa entre pasos, ajustable
 
-    # Simulación con Cymodocea y Posidonia (dejando Halophila comentada)
-    especies_dos = [cymodocea, posidonia]
-    correr_escenario_climatico("Escenario RCP 2.6", rcp26, especies_dos)
+# Configuración inicial
+rows, cols = 5, 5  # Tamaño de la cuadrícula
+steps = 10  # Número de pasos de simulación
 
-    # Simulación con Cymodocea, Posidonia y Halophila
-    especies_tres = [cymodocea, posidonia, halophila]
-    correr_escenario_climatico("Escenario RCP 8.5", rcp85, especies_tres)
+# Inicializa la cuadrícula de especies
+species_grid = initialize_species_grid(rows, cols)
+
+# Visualiza la simulación en tiempo real con la velocidad configurada
+visualize_simulation(species_grid, steps=steps, delay=simulation_speed)
