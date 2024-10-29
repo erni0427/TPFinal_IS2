@@ -1,12 +1,12 @@
 import time
 import random
 
-def initialize_species_grid(rows, cols):
+def initialize_species_grid(rows, cols, rand_func=random.uniform):
     grid = []
     for _ in range(rows):
         row = []
         for _ in range(cols):
-            rand_num = random.uniform(0, 100)
+            rand_num = rand_func(0, 100)
             if rand_num <= 25:
                 row.append("Cymodocea nodosa")
             elif rand_num <= 60:
@@ -19,6 +19,7 @@ def initialize_species_grid(rows, cols):
                 row.append("Materia muerta")
         grid.append(row)
     return grid
+
 
 def simulate_step(grid):
     new_grid = []
