@@ -1,60 +1,14 @@
 
 Ciclo 1:
-H H M P E H P P H E
-E H P H M E E M P M
-E H E P H H P E H M
-P H M M H E H H E P
-P P P P H M E H E H
-H M P P P H H H P H
-E H H P E E H P E E
-P H M M M E P H E H
-E H M M H P E E M E
-H P M E H H M M E H
+H E H H M
+H H M M E
+H H E H M
+E P M E P
+P M P E H
 
 Ciclo 2:
-M M E H E M H H M E
-E M H M E E E E H E
-E M E H M M H E M E
-H M E E M E M M E H
-H H H H M E E M E M
-M E H H H M M M H M
-E M M H E E M H E E
-H M E E E E H M E M
-E M E E M H E E E E
-M H E E M M E E E M
-
-Ciclo 3:
-E E E M E E M M E E
-E E M E E E E E M E
-E E E M E E M E E E
-M E E E E E E E E M
-M M M M E E E E E E
-E E M M M E E E M E
-E E E M E E E M E E
-M E E E E E M E E E
-E E E E E M E E E E
-E M E E E E E E E E
-
-Ciclo 4:
-E E E E E E E E E E
-E E E E E E E E E E
-E E E E E E E E E E
-E E E E E E E E E E
-E E E E E E E E E E
-E E E E E E E E E E
-E E E E E E E E E E
-E E E E E E E E E E
-E E E E E E E E E E
-E E E E E E E E E E
-
-Ciclo 5:
-E E E E E E E E E E
-E E E E E E E E E E
-E E E E E E E E E E
-E E E E E E E E E E
-E E E E E E E E E E
-E E E E E E E E E E
-E E E E E E E E E E
-E E E E E E E E E E
-E E E E E E E E E E
-E E E E E E E E E E
+M E M M E
+M M E E E
+M M E M E
+E H E E H
+H E H E M
